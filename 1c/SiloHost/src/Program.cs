@@ -12,7 +12,7 @@ using var host = new HostBuilder()
     {
         builder.UseLocalhostClustering();
         builder.UseInMemoryReminderService();
-        builder.UseDashboard();
+        builder.UseDashboard(options => options.Port = 8081);
         builder.ConfigureServices(serviceCollection =>
         {
             serviceCollection.AddSingleton<IYourGrainServiceClient, YourGrainServiceClient>();

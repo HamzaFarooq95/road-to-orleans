@@ -1,15 +1,17 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine as build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine as build
 
-COPY ./SiloHost/SiloHost.csproj /src/SiloHost.csproj
-COPY ./SiloHost/src/* /src/
+COPY ./SiloHost/SiloHost.csproj /SiloHost/SiloHost.csproj
+COPY ./SiloHost/src/* /SiloHost/src/
+COPY ./Grains/Grains.fsproj /Grains/Grains.fsproj
+COPY ./Grains/src/* /Grains/src/
 COPY ./ops/entrypoint.sh /SiloHost/
 
-RUN dotnet publish --verbosity normal "/src/SiloHost.csproj" --configuration Release --output /SiloHost
+RUN dotnet publish --verbosity normal "/SiloHost/SiloHost.csproj" --configuration Release --output /SiloHost
 
 EXPOSE 8080
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
 
 WORKDIR /SiloHost
 COPY --from=build /SiloHost ./

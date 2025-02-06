@@ -20,8 +20,8 @@ type YourReminderGrain(client: IYourGrainServiceClient) =
             client.HelloWorld()
         
     override _.OnActivateAsync(cancellationToken:CancellationToken) = 
-        let _periodInSeconds = TimeSpan.FromSeconds 60
-        let _timeInSeconds = TimeSpan.FromSeconds 60
+        let _periodInSeconds = TimeSpan.FromSeconds 60.0
+        let _timeInSeconds = TimeSpan.FromSeconds 60.0
         let _reminder = base.RegisterOrUpdateReminder(base.GetPrimaryKeyString(), _periodInSeconds, _timeInSeconds)
         base.OnActivateAsync(cancellationToken)
         
